@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500">
+  <!-- AI Assistant SVG -->
+  <defs>
+    <linearGradient id="bodyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5" />
+      <stop offset="100%" stop-color="#7C3AED" />
+    </linearGradient>
+    <linearGradient id="headGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F9FAFB" />
+      <stop offset="100%" stop-color="#E5E7EB" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Body -->
+  <rect x="125" y="180" width="150" height="250" rx="20" fill="url(#bodyGradient)" />
+  
+  <!-- Head -->
+  <circle cx="200" cy="120" r="70" fill="url(#headGradient)" stroke="#4F46E5" stroke-width="2" />
+  
+  <!-- Eyes -->
+  <circle cx="175" cy="110" r="10" fill="#4F46E5" />
+  <circle cx="225" cy="110" r="10" fill="#4F46E5" />
+  
+  <!-- Smile -->
+  <path d="M170,140 Q200,170 230,140" stroke="#4F46E5" stroke-width="3" fill="none" />
+  
+  <!-- Arms -->
+  <rect x="75" y="200" width="50" height="15" rx="5" fill="#4F46E5" />
+  <rect x="275" y="200" width="50" height="15" rx="5" fill="#4F46E5" />
+  
+  <!-- Data elements -->
+  <rect x="150" y="220" width="100" height="15" rx="5" fill="white" opacity="0.7" />
+  <rect x="150" y="250" width="100" height="15" rx="5" fill="white" opacity="0.7" />
+  <rect x="150" y="280" width="100" height="15" rx="5" fill="white" opacity="0.7" />
+  <rect x="150" y="310" width="100" height="15" rx="5" fill="white" opacity="0.7" />
+  
+  <!-- Decorative circles -->
+  <circle cx="130" cy="350" r="15" fill="#F9FAFB" opacity="0.5" />
+  <circle cx="270" cy="350" r="15" fill="#F9FAFB" opacity="0.5" />
+  <circle cx="200" cy="390" r="20" fill="#F9FAFB" opacity="0.5" />
+</svg>

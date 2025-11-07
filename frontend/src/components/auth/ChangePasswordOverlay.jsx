@@ -1,0 +1,167 @@
+import { useState } from "react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+
+export default function ChangePasswordOverlay({ isOpen, onClose }) {
+  const [form, setForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    setSuccess("");
+
+    if (form.newPassword !== form.confirmPassword) {
+      setError("New passwords do not match");
+      setLoading(false);
+      return;
+    }
+
+    if (form.newPassword.length < 6) {
+      setError("New password must be at least 6 characters long");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch("http://localhost:5000/api/change-password", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          currentPassword: form.currentPassword,
+          newPassword: form.newPassword,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message || "Failed to change password");
+
+      // Update token if provided
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
+
+      setSuccess("Password changed successfully!");
+      setForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
+
+      // Close modal after a delay
+      setTimeout(() => {
+        onClose();
+      }, 2000);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-white dark:bg-neutral-900 rounded-2xl shadow-xl max-w-md w-full p-6">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold text-neutral-800 dark:text-white">
+            Change Password
+          </h2>
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors"
+          >
+            <XMarkIcon className="w-5 h-5 text-neutral-500" />
+          </button>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+              Current Password
+            </label>
+            <input
+              type="password"
+              name="currentPassword"
+              value={form.currentPassword}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
+              placeholder="Enter current password"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+              New Password
+            </label>
+            <input
+              type="password"
+              name="newPassword"
+              value={form.newPassword}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
+              placeholder="Enter new password"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+              Confirm New Password
+            </label>
+            <input
+              type="password"
+              name="confirmPassword"
+              value={form.confirmPassword}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
+              placeholder="Confirm new password"
+              required
+            />
+          </div>
+
+          {error && (
+            <p className="text-red-500 text-sm">{error}</p>
+          )}
+
+          {success && (
+            <p className="text-green-500 text-sm">{success}</p>
+          )}
+
+          {/* Buttons */}
+          <div className="flex gap-3 pt-4">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 px-4 py-2 border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex-1 px-4 py-2 bg-[#2563EB] text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              {loading ? "Changing..." : "Change Password"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
