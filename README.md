@@ -52,32 +52,70 @@ A comprehensive data analytics platform built with React, Node.js, and MongoDB, 
 
 ```
 data-clinic/
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── Navbar.jsx
-│   │   │   └── ThemeToggle.jsx
-│   │   ├── pages/
-│   │   │   ├── Dashboard.jsx
-│   │   │   ├── UploadDatasetPage.jsx
-│   │   │   ├── CleanDataPage.jsx
-│   │   │   ├── AnalyzeDataPage.jsx
-│   │   │   └── ReportsPage.jsx
-│   │   ├── contexts/
-│   │   └── utils/
-│   └── package.json
-├── backend/
-│   ├── routes/
-│   │   ├── auth.js
-│   │   ├── upload.js
-│   │   ├── ai.js
-│   │   └── reports.js
-│   ├── models/
-│   │   └── User.js
-│   ├── utils/
-│   │   └── sendEmail.js
-│   └── server.js
-└── README.md
+backend/
+├── models/
+│ └── user.js
+├── routes/
+│ ├── ai.js
+│ ├── auth.js
+│ ├── reports.js
+│ └── upload.js
+├── utils/
+│ ├── mailer.js
+│ └── sendEmail.js
+├── db.js
+├── server.js
+├── .env
+├── package.json
+├── package-lock.json
+
+frontend/
+├── public/
+│ ├── ai-assistant.svg
+│ └── vite.svg
+├── src/
+│ ├── assets/
+│ │ ├── data-analysisjs.jpg
+│ │ ├── IMG_1063.PNG
+│ │ └── react.svg
+│ ├── components/
+│ │ ├── auth/
+│ │ │ ├── AccountSettingsOverlay.jsx
+│ │ │ ├── ChangePasswordOverlay.jsx
+│ │ │ ├── EditProfileOverlay.jsx
+│ │ │ ├── ForgotPasswordOverlay.jsx
+│ │ │ ├── LoginOverlay.jsx
+│ │ │ ├── SignupOverlay.jsx
+│ │ ├── common/
+│ │ │ ├── Carousel.jsx
+│ │ │ ├── Icons.jsx
+│ │ │ ├── Navbar.jsx
+│ │ │ └── ThemeToggle.jsx
+│ ├── hooks/
+│ ├── pages/
+│ │ ├── About.jsx
+│ │ ├── AnalyzeDataPage.jsx
+│ │ ├── AuthSuccess.jsx
+│ │ ├── CleanDataPage.jsx
+│ │ ├── Dashboard.jsx
+│ │ ├── ForgotPassword.jsx
+│ │ ├── GetStartedPage.jsx
+│ │ ├── GoogleCallback.jsx
+│ │ ├── HomePage.jsx
+│ │ ├── LearnMore.jsx
+│ │ ├── Login.jsx
+│ │ ├── Onboarding.jsx
+│ │ ├── Register.jsx
+│ │ ├── ReportPage.jsx
+│ │ └── ResetPassword.jsx
+├── package.json
+├── package-lock.json
+├── tailwind.config.js
+├── vite.config.js
+
+.gitignore
+README.md
+vercel.json
 ```
 
 ## 🚀 Getting Started
@@ -256,5 +294,6 @@ For support, email dataclinicc@gmail.com or create an issue in the repository.
 ---
 
 **Data Clinic** - Making data analytics accessible to everyone through AI-powered insights.
+
 
 
