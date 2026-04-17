@@ -9,7 +9,7 @@ import GoogleStrategy from "passport-google-oauth20";
 import session from "express-session";
 
 import { connectDB } from "./db.js";
-import User from "./models/User.js";
+import User from "./models/user.js";
 import authRoutes from "./routes/auth.js";
 import uploadRoutes from "./routes/upload.js";
 import aiRoutes from "./routes/ai.js";
