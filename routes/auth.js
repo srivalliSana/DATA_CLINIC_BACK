@@ -2,7 +2,7 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import passport from "passport";
-import User from "../models/User.js";
+import User from "../models/user.js";
 import sendEmail from "../utils/sendEmail.js"; // ✅ mail utility
 
 const router = express.Router();
