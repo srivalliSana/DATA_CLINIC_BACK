@@ -2,7 +2,7 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import passport from "passport";
-import User from "../models/user.js";
+import User from "../models/User.js";
 import sendEmail from "../utils/sendEmail.js"; // ✅ mail utility
 
 const router = express.Router();
@@ -92,7 +92,7 @@ router.post("/forgot-password", async (req, res) => {
     await user.save();
 
     // Create reset URL
-    const resetUrl = `http://localhost:5173/auth/reset-password?token=${resetToken}`;
+    const resetUrl = `${process.env.FRONTEND_URL}/auth/reset-password?token=${resetToken}`;
 
     // Send password reset email
     console.log("📧 Sending password reset email to:", email);
@@ -219,7 +219,7 @@ router.post("/login", async (req, res) => {
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "http://localhost:5173/auth/login",
+    failureRedirect: `${process.env.FRONTEND_URL}/auth/login`,
   }),
   async (req, res) => {
     try {
@@ -252,13 +252,13 @@ router.get(
 
       // Redirect frontend with token + info
       res.redirect(
-        `http://localhost:5173/auth/success?token=${token}&email=${encodeURIComponent(
+        `${process.env.FRONTEND_URL}/auth/success?token=${token}&email=${encodeURIComponent(
           user.email
         )}&name=${encodeURIComponent(user.name)}`
       );
     } catch (err) {
       console.error("Google OAuth error:", err);
-      res.redirect("http://localhost:5173/auth/login?error=oauth_failed");
+      res.redirect(`${process.env.FRONTEND_URL}/auth/login?error=oauth_failed`);
     }
   }
 );
