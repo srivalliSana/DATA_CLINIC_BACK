@@ -9,7 +9,7 @@ import GoogleStrategy from "passport-google-oauth20";
 import session from "express-session";
 
 import { connectDB } from "./db.js";
-import User from "./models/user.js";
+import User from "./models/User.js";
 import authRoutes from "./routes/auth.js";
 import uploadRoutes from "./routes/upload.js";
 import aiRoutes from "./routes/ai.js";
@@ -26,7 +26,10 @@ const JWT_SECRET = process.env.JWT_SECRET || "supersecret";
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ 
+  origin: process.env.FRONTEND_URL || "http://localhost:5173", 
+  credentials: true 
+}));
 // Sessions (required for Passport)
 app.use(
   session({
@@ -98,7 +101,7 @@ app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "em
 
 app.get(
   "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "http://localhost:5173/auth/login" }),
+  passport.authenticate("google", { failureRedirect: `${process.env.FRONTEND_URL}/auth/login` }),
   async (req, res) => {
     try {
       const { email, name } = req.user;
@@ -129,13 +132,13 @@ app.get(
 
       // 🔹 Always redirect with token, name, and email
       res.redirect(
-        `http://localhost:5173/auth/success?token=${token}&email=${user.email}&name=${encodeURIComponent(
+        `${process.env.FRONTEND_URL}/auth/success?token=${token}&email=${user.email}&name=${encodeURIComponent(
           user.name
         )}`
       );
     } catch (err) {
       console.error("Google OAuth error:", err);
-      res.redirect("http://localhost:5173/auth/login?error=oauth_failed");
+      res.redirect(`${process.env.FRONTEND_URL}/auth/login?error=oauth_failed`);
     }
   }
 );
